@@ -7,18 +7,11 @@ use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 class Employee
 {
-    protected $id;
-    protected $name;
-    protected $salary;
-    protected $joinDate;
-    public function __construct($id, $name, $salary, $joinDate)
+    public function __construct(protected int $id, protected string $name, protected int $salary, protected string $joinDate)
     {
-        $this->id = $id;
-        $this->name = $name;
-        $this->salary = $salary;
-        $this->joinDate = $joinDate;
     }
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
+
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
         $metadata->addPropertyConstraint('id', new Assert\NotBlank());
         $metadata->addPropertyConstraint(
@@ -42,34 +35,35 @@ class Employee
         );
     }
 
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function getSalary()
+    public function getSalary(): int
     {
         return $this->salary;
     }
 
-    public function getJoinTime()
+    public function getJoinTime(): string
     {
         return $this->joinDate;
     }
 
-    public function getExperience()
+    public function getExperience(): int
     {
         $now = time();
         $datediff = $now - strtotime($this->joinDate);
+
         return floor($datediff / (60 * 60 * 24 * 365));
     }
 
-    public function printInfo()
+    public function printInfo(): void
     {
         echo "id: {$this->id} name: {$this->name} salary: {$this->salary} joinDate: {$this->joinDate}\n";
     }
